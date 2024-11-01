@@ -5313,9 +5313,36 @@ This operation returns Promo sections data (label, images and description).
 |===
 |Path |Type |Optional |Description
 |title |String |false |Promo title.
-|promoLink |Array[Object] |false |CTA link data. May be empty.
-|promoLink[].title |String |false |Title of CTA button.
-|promoLink[].url |String |true |URL of CTA button.
+|learnMore |Array[Object] |false |CTA link data. May be empty.
+|learnMore[].title |String |false |Learn more section title.
+|learnMore[].description |String |false |Learn more section description.
+|learnMore[].video |Object |true |Learn more section video.
+|learnMore[].video.name |String |false |Name of the Video (e.g. 'RPM #79 Express', 'BODYPUMP #100').
+|learnMore[].video.id |String |false |Unique ID of the Video.
+|learnMore[].video.duration |Integer |false |Video duration in seconds.
+|learnMore[].video.episode |Object |true |Video Episode.
+|learnMore[].video.episode.number |Integer |true |Number of episode in season.
+|learnMore[].video.episode.season |Integer |true |Number of season.
+|learnMore[].video.thumbnail |String |false |Thumbnail of the Video.
+|learnMore[].video.customInfo |Map |false |Array of Key-Value to represent additional information of an entity. Partners could contain diverse information of same entities. This type designed to store that information.
+|learnMore[].video.attachments |Array[Object] |true |Video attachments.
+|learnMore[].video.attachments[].title |string |false |Title of the attachment.
+|learnMore[].video.attachments[].url |string |false |URL of the attachment.
+|learnMore[].video.premium |Boolean |false |Indicates whether the video belongs to the premium category.
+|learnMore[].video.instructor |String |true |Instructor name.
+|learnMore[].video.instructorId |String |true |Instructor ID.
+|learnMore[].video.instructors[] |Array[Object] |false |Instructor objects.
+|learnMore[].video.instructors[].name |String |true |Instructor name.
+|learnMore[].video.instructors[].id |String |true |Instructor ID.
+|learnMore[].video.level |String |true |Workout level.
+|learnMore[].video.location |String |true |Location metadata of the video (e.g. 'Wichita', 'Houston').
+|learnMore[].video.category |Integer |false |Video Category ID (deprecated).
+|learnMore[].video.program |Integer |false |Video Category ID.
+|learnMore[].video.programName |String |false |Video Category name.
+|learnMore[].video.releaseDate |Integer |false |Video release timestamp.
+|learnMore[].video.workoutModality |String |false |Workout modality.
+|learnMore[].video.hardwareManufacturer |String |true |Hardware manufacturer.
+|learnMore[].video.language |String |false |Video language.
 |sections |Array[Object] |false |Array of promo sections(slides). May be empty.
 |sections[].imageTV |String |false |Image URL.
 |sections[].imageMobile |String |true |URL of mobile optimized image.
@@ -5356,9 +5383,37 @@ Content-Type: application/json;charset=UTF-8
             "imageMobile": "http://y360cms.docksal.site/sites/default/files/2023-01/Kelley-min.jpg"
         }
     ],
-    "promoLink": {
-       "title": "Learn more",
-       "url": "http://y360cms.docksal.site",
+    "learnMore": {
+        "title": "Learn More",
+        "description": "",
+        "video": {
+            "id": "510",
+            "name": "Beginner Gymnastics Class",
+            "thumbnail": "http://embed.wistia.com/deliveries/195aef6835efd70a99d718c4241dbeff.bin",
+            "duration": 855,
+            "customInfo": [],
+            "premium": false,
+            "instructor": "Barbie Castor",
+            "instructorId": "494",
+            "instructors": [
+                {
+                    "name": "Barbie Castor",
+                    "id": "494"
+                }
+            ],
+            "level": "Beginner",
+            "category": 216,
+            "program": 216,
+            "programName": "Gymnastics & Cheer",
+            "description": "Beginner youth gymnastics skills.",
+            "equipment": "None",
+            "attachments": [],
+            "language": "English",
+            "releaseDate": 1616403603,
+            "workoutModality": "",
+            "hardwareManufacturer": "",
+            "location": "Greater Wichita YMCA"
+        }
     }
 }
 ----
