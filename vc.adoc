@@ -3457,6 +3457,7 @@ This operation searches Live Streams. It returns brief information about live st
 |items[].endTime |Integer |false |The end time (UNIX timestamp).
 |items[].duration |Integer |false |Duration in seconds.
 |items[].thumbnail |String |false |Thumbnail URL.
+|items[].circle_image |String |false |Circle image URL.
 |items[].instructor |String |true |Instructor name.
 |items[].instructorId |String |true |Instructor ID.
 |items[].instructors[] |Array[Object] |false |Instructor objects.
@@ -3517,6 +3518,7 @@ Content-Type: application/json;charset=UTF-8
         "endTime": 1612890000,
         "duration": 3600,
         "thumbnail": "https://cms.ymca360.org/sites/default/files/live-stream/1/thumb-small.jpg",
+        "circle_image": "https://cms.ymca360.org/sites/default/files/live-stream/1/thumb-small.jpg",
         "premium": false,
         "instructor": "Corri Lewellen",
         "instructorId": "12",
@@ -3609,6 +3611,7 @@ This operation returns all detailed information about a Live Stream.
 |liveStreamBrief.endTime |Integer |false |The end time (UNIX timestamp).
 |liveStreamBrief.duration |Integer |false |Duration in seconds.
 |liveStreamBrief.thumbnail |String |false |Thumbnail URL.
+|liveStreamBrief.circle_image |String |false |Circle image URL.
 |liveStreamBrief.instructor |String |true |Instructor name.
 |liveStreamBrief.instructorId |String |true |Instructor ID.
 |liveStreamBrief.instructors[] |Array[Object] |false |Instructor objects.
@@ -3655,6 +3658,7 @@ Content-Type: application/json;charset=UTF-8
         "endTime": 1612890000,
         "duration": 3600,
         "thumbnail": "https://cms.ymca360.org/sites/default/files/live-stream/1/thumb-small.jpg",
+        "circle_image": "https://cms.ymca360.org/sites/default/files/live-stream/1/thumb-small.jpg",
         "instructor": "Corri Lewellen",
         "instructorId": "12",
         "instructors": [
