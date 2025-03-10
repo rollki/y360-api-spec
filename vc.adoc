@@ -301,6 +301,26 @@ link:#_promo[Promo Section]
 ** link:#_example_request_promo[Example request]
 ** link:#_example_response_promo[Example response]
 
+link:#_archived_videos[Search Archived Videos]
+
+* link:#resources-archived-videos[Archived Videos]
+** link:#_request_archived_headers_7[Request headers]
+** link:#_path_archived_parameters_7[Path parameters]
+** link:#_query_archived_parameters_7[Query parameters]
+** link:#_request_archived_fields_7[Request fields]
+** link:#_response_archived_fields_10[Response fields]
+** link:#_example_archived_request_7[Example request]
+** link:#_example_archived_response_7[Example response]
+
+* link:#resources-archived-video[Archived Video Details]
+** link:#_request_archived_headers_8[Request headers]
+** link:#_path_archived_parameters_8[Path parameters]
+** link:#_query_archived_parameters_8[Query parameters]
+** link:#_request_archived_fields_8[Request fields]
+** link:#_response_archived_fields_11[Response fields]
+** link:#_example_archived_request_8[Example request]
+** link:#_example_archived_response_8[Example response]
+
 [[content]]
 [[resources-programs]]
 == link:#resources-programs[Errors]
@@ -5359,6 +5379,459 @@ Content-Type: application/json;charset=UTF-8
     "promoLink": {
        "title": "Learn more",
        "url": "http://y360cms.docksal.site",
+    }
+}
+----
+
+[[_archived_videos]]
+== link:#_archived_videos[Archived videos]
+
+[[resources-archived-videos]]
+=== link:#resources-archived-videos[Archived videos]
+
+`GET /api/virtual-classes/v4.0/content-providers/{provider}/archived-videos`
+
+This operation search Archived Videos. It returns only brief information about Videos.
+
+[NOTE]
+====
+The "Around the Y" category videos are excluded.
+====
+
+[[_request_archived_headers_7]]
+==== link:#_request_archived_headers_7[Request headers]
+
+[width="100%",cols="50%,50%",options="header",]
+|===
+|Name |Description
+|`Accept` |application/json
+|`authorization` |Api key for authentication (f.e. 'authorization: apiKey 0a47c3bf-4740-465d-a22e-0b25ef86ddd0')
+|===
+
+[[_path_archived_parameters_7]]
+==== link:#_path_archived_parameters_7[Path parameters]
+
+[width="100%",cols="25%,25%,25%,25%",options="header",]
+|===
+|Parameter |Type |Optional |Description
+|provider |String |false |Unique ID of the Content Provider.
+|===
+
+[[_query_archived_parameters_7]]
+==== link:#_query_archived_parameters_7[Query parameters]
+
+[width="100%",cols="25%,25%,25%,25%",options="header",]
+|===
+|Parameter |Type |Optional |Description
+|exerciserUuid |String |true |Exerciser Unique ID.
+|===
+
+[[_request_archived_fields_7]]
+==== link:#_request_archived_fields_7[Request fields]
+
+[width="100%",cols="25%,25%,25%,25%",options="header",]
+|===
+|Path |Type |Optional |Description
+|searchString |String |false |The searchString to search archived video.
+|duration[] |Array[String] |true a|
+Video duration filter option.
+
+Must be one of [`short`, `long`, `15m`, `30m`, `45m`, `1h`, `1hplus`], where:
+short (up to 30 min), long (30 min or longer), 15m (up to 15 min), 30m (up to 30 min), 45m (up to 45 min), 1h (up to 1 hour), 1hplus (1 hour or longer).
+
+Supports multiple values. In case of multiple values, works as `OR` operator.
+|page |Integer |true |Page you want to retrieve, 0 indexed and defaults to 0.
+|limit |Integer |true |Size of the page you want to retrieve, defaults to 20.
+|sort |String |true a|
+Sort order
+
+Can be one of [`createdAsc`, `createdDesc`, `titleAsc`, `titleDesc`, `instructorAsc` (`instructor`), `instructorDesc`, `locationAsc` (`location`), `locationDesc`].
+
+`createdDesc` if not specified or not matching the listed options.
+|vids[] |Array[Integer] |true |Video ID filter. Video IDs.
+|program[] |Array[String] |true |Category filter. Category names.
+|location[] |Array[String] |true |Location filter. Location names.
+|level[] |Array[String] |true |Workout level filter. Level names.
+|instructor[] |Array[String] |true |Instructor filter. Instructor names.
+|instructorId[] |Array[String] |true |Instructor filter. Instructor ids.
+|equipment[] |Array[String] |true |Equipment filter. Equipment names.
+|equipmentReq[] |Array[String] |true a|
+Equipment required filter.
+
+Can be one of [`yes`, `no`].
+
+`yes` matches videos with equipment set but not equal 'N/A'.
+`no` matches videos without equipment set or set to 'N/A'.
+
+*Only the first value is used.*
+|language |Array[String] |true |Language filter. Langauge names
+|workoutModality |String |true |Workout modality filter.
+|hardwareManufacturer |String |true |Hardware manufacturer filter.
+|===
+
+[[_response_archived_fields_10]]
+==== link:#_response_archived_fields_10[Response fields]
+
+[width="100%",cols="25%,25%,25%,25%",options="header",]
+|===
+|Path |Type |Optional |Description
+|items |Array[Object] |false |Actual items.
+|items[].name |String |false |Name of the Video (e.g. 'RPM #79 Express', 'BODYPUMP #100').
+|items[].id |String |false |Unique ID of the Video.
+|items[].duration |Integer |false |Video duration in seconds.
+|items[].episode |Object |true |Video Episode.
+|items[].episode.number |Integer |true |Number of episode in season.
+|items[].episode.season |Integer |true |Number of season.
+|items[].thumbnail |String |false |Thumbnail of the Video.
+|items[].customInfo |Map |false |Array of Key-Value to represent additional information of an entity. Partners could contain diverse information of same entities. This type designed to store that information.
+|items[].premium |Boolean |false |Indicates whether the video belongs to the premium category.
+|items[].instructor |String |true |Instructor name.
+|items[].instructorId |String |true |Instructor ID.
+|items[].instructors[] |Array[Object] |false |Instructor objects.
+|items[].instructors[].name |String |true |Instructor name.
+|items[].instructors[].id |String |true |Instructor ID.
+|items[].level |String |true |Workout level.
+|items[].location |String |true |Location metadata of the video (e.g. 'Wichita', 'Houston').
+|items[].category |Integer |false |Video Category ID (deprecated).
+|items[].program |Integer |false |Video Category ID.
+|items[].programName |String |false |Video Category name.
+|items[].releaseDate |Integer |false |Video release timestamp.
+|items[].language |String |false |Video language.
+|items[].attachments |Array[Object] |true |Video attachments.
+|items[].attachments[].title |string |false |Title of the attachment.
+|items[].attachments[].url |string |false |URL of the attachment.
+|items[].workoutModality |String |false |Workout modality.
+|items[].hardwareManufacturer |String |true |Hardware manufacturer.
+|items[].moderation_state |String |false |Confirms that the status of the received video is archived.
+|summary |Object |false |Page summary.
+|summary.limit |Integer |false |Requested size of the page.
+|summary.page |Integer |false |Page number.
+|summary.total |Integer |false |Total count of items.
+|summary.facets |Object |false |Filter values for faceted search.
+|summary.facets.level |Array[Object] |false |Filter values the "level" filter.
+|summary.facets.level[].id |String |false |Filter value the "level" filter.
+|summary.facets.level[].count |Integer |false |Number of search results relevant to the filter value.
+|summary.facets.location |Array[Object] |false |Filter values the "location" filter.
+|summary.facets.instructor |Array[Object] |false |Filter values the "instructor" filter.
+|summary.facets.equipment |Array[Object] |false |Filter values the "equipment" filter.
+|summary.facets.program |Array[Object] |false |Filter values the "category" filter.
+|summary.facets.program[].id |Array[Object] |false |Filter value for the "category" filter.
+|summary.facets.program[].count |Array[Object] |false |Number of search results relevant to the filter value.
+|summary.facets.program[].sub |Array[Object] |true |The list of sub-categories.
+|summary.facets.program[].sub[].id |Array[Object] |true |Filter value for the "category" filter.
+|summary.facets.program[].sub[].count |Array[Object] |true |Number of search results relevant to the filter value.
+|summary.facets.program[].sub[].sub |Array[Object] |true |The list of sub-sub-categories.
+|summary.facets.workoutModality |Array[Object] |false |Filter values the "workoutModality" filter.
+|summary.facets.workoutModality[].id |String |false |Filter value for the "workoutModality" filter.
+|summary.facets.workoutModality[].count |Integer |false |Number of search results relevant to the filter value.
+|===
+
+[[_example_archived_request_7]]
+==== link:#_example_archived_request_7[Example request]
+
+[source,highlightjs,highlight]
+----
+$ curl 'http://localhost:8080/api/virtual-classes/v4.0/content-providers/ldap/archived-videos?searchString=Meditation for Sleep&duration[]=15m&duration[]=1hplus&page=0&limit=50' -i -X GET \
+    -H 'Accept: application/json' -H 'authorization: apiKey 0a47c3bf-4740-465d-a22e-0b25ef86ddd0'
+----
+
+[[_example_archived_response_7]]
+==== link:#_example_archived_response_7[Example response]
+
+[source,highlightjs,highlight,nowrap]
+----
+HTTP/1.1 200 OK
+Content-Length: 341
+Content-Type: application/json;charset=UTF-8
+
+{
+    "items": [
+        {
+            "id": "509",
+            "name": "Meditation for Sleep",
+            "thumbnail": "http://embed.wistia.com/deliveries/d69c92e189e39e6db5373601d43a085bacbeb1d8.bin",
+            "duration": 410,
+            "customInfo": [],
+            "instructor": "Dale Rowley",
+            "instructorId": "450",
+            "instructors": [
+                {
+                    "name": "Dale Rowley",
+                    "id": "450"
+                }
+            ],
+            "level": "All Levels",
+            "category": 202,
+            "program": 202,
+            "programName": "* Around the Y *, Guided Meditations",
+            "description": "Join us in a relaxation technique that will help to relieve stress and find calm.",
+            "equipment": "None",
+            "attachments": [],
+            "language": "English",
+            "releaseDate": 1616403603,
+            "workoutModality": "",
+            "workoutModalities": [],
+            "hardwareManufacturer": "",
+            "location": "YMCA of the East Bay",
+            "moderation_state": "archived",
+            "premium": false
+        }
+    ],
+    "summary": {
+        "total": 1,
+        "page": 0,
+        "limit": 50,
+        "facets": {
+            "level": [
+                {
+                    "id": "All Levels",
+                    "count": 1
+                }
+            ],
+            "location": [
+                {
+                    "id": "YMCA of the East Bay",
+                    "count": 1
+                }
+            ],
+            "program": [
+                {
+                    "id": "* Around the Y *",
+                    "count": 1,
+                    "sub": []
+                },
+                {
+                    "id": "Mind Body",
+                    "count": 1,
+                    "sub": [
+                        {
+                            "id": "Meditations & Tai Chi",
+                            "count": 1,
+                            "sub": [
+                                {
+                                    "id": "Guided Meditations",
+                                    "count": 1,
+                                    "sub": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "instructor": [
+                {
+                    "id": "Dale Rowley",
+                    "count": 1
+                }
+            ],
+            "equipment": [
+                {
+                    "id": "None",
+                    "count": 1
+                }
+            ]
+        }
+    }
+}
+----
+
+[[resources-archived-video]]
+=== link:#resources-archived-video[Archived Video Details]
+
+`GET /api/virtual-classes/v4.0/content-providers/{provider}/archived-videos/{videoId}`
+
+This operation returns all detailed information about Archived Video.
+
+[[_request_archived_headers_8]]
+==== link:#_request_archived_headers_8[Request headers]
+
+[width="100%",cols="50%,50%",options="header",]
+|===
+|Name |Description
+|`Accept` |application/json
+|`authorization` |Api key for authentication (f.e. 'authorization: apiKey 0a47c3bf-4740-465d-a22e-0b25ef86ddd0')
+|===
+
+[[_path_archived_parameters_8]]
+==== link:#_path_archived_parameters_8[Path parameters]
+
+[width="100%",cols="25%,25%,25%,25%",options="header",]
+|===
+|Parameter |Type |Optional |Description
+|provider |String |false |Unique ID of the Content Provider.
+|videoId |String |false |Unique ID of the Video.
+|===
+
+[[_query_archived_parameters_8]]
+==== link:#_query_archived_parameters_8[Query parameters]
+
+[width="100%",cols="25%,25%,25%,25%",options="header",]
+|===
+|Parameter |Type |Optional |Description
+|exerciserUuid |String |true |Exerciser Unique ID.
+|===
+
+[[_request_archived_fields_8]]
+==== link:#_request_archived_fields_8[Request fields]
+
+No request body.
+
+[[_response_archived_fields_11]]
+==== link:#_response_archived_fields_11[Response fields]
+
+[width="100%",cols="25%,25%,25%,25%",options="header",]
+|===
+|Path |Type |Optional |Description
+|videoDetails |Object |false |Comprehensive details of the video.
+|videoDetails.description |String |true |Long description of the video (plain text).
+|videoDetails.descriptionHtml |String |false |HTML markup for the video description.
+|videoDetails.equipment |String |true |Equipment needed for workout.
+|videoDetails.presenter |String |true |Presenter of the video.
+|videoDetails.videoFiles |Array[Object] |false |Files of the video.
+|videoDetails.videoFiles[].method |String |true |Format of the video (e.g. 'hls', 'dash', 'progressive').
+|videoDetails.videoFiles[].codec |String |true |Codec of the video (e.g. 'h264').
+|videoDetails.videoFiles[].mimeType |String |true |Mime-type of the video (e.g. 'application/x-mpegURL', 'application/dash+xml', 'video/mp4').
+|videoDetails.videoFiles[].format |String |true |Format of the video (e.g. 'm3u8', 'mpd', 'mp4', 'webm', 'ogg').
+|videoDetails.videoFiles[].quality |String |true |Quality of the video (e.g. '1080p', '720p', '540p', '480p', '360p', 'adaptive').
+|videoDetails.videoFiles[].sizeInBytes |Integer |true |Size of the video.
+|videoDetails.videoFiles[].sourceUrl |String |false |Url of the video file.
+|videoDetails.subtitles |Array[Object] |false |Subtitles to video (WebVTT or SRT file).
+|videoDetails.subtitles[].locale |String |true |Locale (IETF BCP 47) of subtitles (e.g. 'uk', 'uk_UA', 'en_GB').
+|videoDetails.subtitles[].srtFileUrl |String |true |Url of SRT file.
+|videoDetails.subtitles[].vttFileUrl |String |true |Url of WebVTT file.
+|videoBrief |Object |false |Brief details of the video.
+|videoBrief.name |String |false |Name of the Video (e.g. 'RPM #79 Express', 'BODYPUMP #100').
+|videoBrief.id |String |false |Unique ID of the Video.
+|videoBrief.duration |Integer |false |Video duration in seconds.
+|videoBrief.episode |Object |true |Video Episode.
+|videoBrief.episode.number |Integer |true |Number of episode in season.
+|videoBrief.episode.season |Integer |true |Number of season.
+|videoBrief.thumbnail |String |false |Thumbnail of the Video.
+|videoBrief.premium |Boolean |false |Indicates whether the video belongs to the premium category.
+|videoBrief.instructor |String |true |Instructor name.
+|videoBrief.instructorId |String |true |Instructor ID.
+|videoBrief.instructors[] |Array[Object] |false |Instructor objects.
+|videoBrief.instructors[].name |String |true |Instructor name.
+|videoBrief.instructors[].id |String |true |Instructor ID.
+|videoBrief.location |String |true |Location metadata of the video (e.g. 'Wichita', 'Houston').
+|videoBrief.level |String |true |Workout level.
+|videoBrief.category |Integer |false |Video Category ID (deprecated).
+|videoBrief.program |Integer |false |Video Category ID.
+|videoBrief.programName |String |false |Video Category name.
+|videoBrief.releaseDate |Integer |false |Video release timestamp.
+|videoBrief.language |String |false |Video language.
+|videoBrief.customInfo |Map |false |Array of Key-Value to represent additional information of an entity. Partners could contain diverse information of same entities. This type designed to store that information.
+|videoBrief.workoutModality |String |false |Workout modality.
+|videoBrief.hardwareManufacturer |String |true |Hardware manufacturer.
+|videoBrief.moderation_state |String |false |Confirms that the status of the received video is archived.
+|===
+
+[[_example_archived_request_8]]
+==== link:#_example_archived_request_8[Example request]
+
+[source,highlightjs,highlight]
+----
+$ curl 'http://localhost:8080/api/virtual-classes/v4.0/content-providers/lmod/archived-videos/100?exerciserUuid=8965a460-a79e-4bf7-b66c-7e34d8c34760' -i -X GET \
+    -H 'Accept: application/json' -H 'authorization: apiKey 0a47c3bf-4740-465d-a22e-0b25ef86ddd0'
+----
+
+[[_example_archived_response_8]]
+==== link:#_example_archived_response_8[Example response]
+
+[source,highlightjs,highlight,nowrap]
+----
+HTTP/1.1 200 OK
+Content-Length: 2431
+Content-Type: application/json;charset=UTF-8
+
+{
+    "videoBrief": {
+        "id": "100",
+        "name": "Mindful Yoga",
+        "thumbnail": "http://embed.wistia.com/deliveries/05a232a527061b571c510ef14ec625475738fe6e.bin",
+        "duration": 1685,
+        "customInfo": [],
+        "instructor": "Tracie",
+        "instructorId": "212",
+        "instructors": [
+            {
+                "name": "Tracie",
+                "id": "212"
+            }
+        ],
+        "level": "Intermediate",
+        "category": 240,
+        "program": 240,
+        "programName": "Intermediate Yoga",
+        "description": "This practice allows yout the time and space to flow from one posture to the next mindfully.",
+        "equipment": "Block Optional, Mat",
+        "attachments": [],
+        "language": "English",
+        "releaseDate": 0,
+        "workoutModality": "",
+        "workoutModalities": [],
+        "hardwareManufacturer": "",
+        "location": "YMCA of the East Bay",
+        "moderation_state": "archived",
+        "premium": false
+    },
+    "videoDetails": {
+        "descriptionHtml": "<p>This practice allows yout the time and space to flow from one posture to the next mindfully.</p>\n",
+        "description": "This practice allows yout the time and space to flow from one posture to the next mindfully.",
+        "equipment": "Block Optional, Mat",
+        "hashId": "wa052yyfp9",
+        "videoFiles": [
+            {
+                "mimeType": "video/mp4",
+                "format": "mp4",
+                "quality": "origin",
+                "sizeInBytes": 1159131617,
+                "sourceUrl": "http://embed.wistia.com/deliveries/f8fcef39ddde0cec73ec3da99daca877.bin"
+            },
+            {
+                "mimeType": "video/mp4",
+                "format": "mp4",
+                "quality": "360p",
+                "sizeInBytes": 70156718,
+                "sourceUrl": "http://embed.wistia.com/deliveries/0f5f748c6aca81d7deffbc5d9232b51f7df685a3.bin"
+            },
+            {
+                "mimeType": "video/mp4",
+                "format": "mp4",
+                "quality": "224p",
+                "sizeInBytes": 46672398,
+                "sourceUrl": "http://embed.wistia.com/deliveries/b2c77fcfe4d49ba546b3c6287bf5de4506e00b83.bin"
+            },
+            {
+                "mimeType": "video/mp4",
+                "format": "mp4",
+                "quality": "540p",
+                "sizeInBytes": 110503480,
+                "sourceUrl": "http://embed.wistia.com/deliveries/57c9c0b77befa55eb310e9b92bfeace6ca63d3e0.bin"
+            },
+            {
+                "mimeType": "video/mp4",
+                "format": "mp4",
+                "quality": "720p",
+                "sizeInBytes": 169213275,
+                "sourceUrl": "http://embed.wistia.com/deliveries/312dfc8ce1a67b01f3876f9ed6be2115faa02766.bin"
+            },
+            {
+                "mimeType": "video/mp4",
+                "format": "mp4",
+                "quality": "1080p",
+                "sizeInBytes": 388914090,
+                "sourceUrl": "http://embed.wistia.com/deliveries/7bc5f20382d137a5886e4e53a2884a7d3aefeb68.bin"
+            },
+            {
+                "mimeType": "application/x-mpegURL",
+                "format": "m3u8",
+                "sourceUrl": "http://fast.wistia.net/embed/medias/wa052yyfp9.m3u8",
+                "quality": "adaptive",
+                "method": "hls"
+            }
+        ],
+        "subtitles": []
     }
 }
 ----
