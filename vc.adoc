@@ -3160,5 +3160,241 @@ HTTP/1.1 200 OK
   }
 }
 ----
+
+[[archived-videos]]
+== Archived Videos
+
+Archived videos have been removed from the active library but remain accessible via the API.
+
+[[search-archived-videos]]
+=== Search Archived Videos
+
+`GET /api/virtual-classes/v4.0/content-providers/{provider}/archived-videos`
+
+Supports the same filter parameters as <<search-videos>>. Returns only brief video information. Videos from the "Around the Y" virtual category are excluded.
+
+.Request Headers
+|===
+|Name |Required |Description
+
+|Accept
+|Yes
+|application/json
+
+|authorization
+|Yes
+|apiKey {key}
+
+|===
+
+.Path Parameters
+|===
+|Name |Type |Required |Description
+
+|provider
+|String
+|Yes
+|Association machine name
+
+|===
+
+.Query Parameters
+
+Same as <<search-videos>>.
+
+.Response Fields
+
+Same as <<search-videos>>. Additionally:
+
+|===
+|Name |Type |Description
+
+|items[].moderation_state
+|String
+|Always `"archived"`
+
+|===
+
+.Example Request
+[source,sh]
+----
+$ curl 'http://localhost:8080/api/virtual-classes/v4.0/content-providers/ldap/archived-videos?searchString=Meditation+for+Sleep&duration[]=15m&duration[]=1hplus&page=0&limit=50' -i -X GET \
+    -H 'Accept: application/json' \
+    -H 'authorization: apiKey 0a47c3bf-4740-465d-a22e-0b25ef86ddd0'
+----
+
+.Example Response
+[source,json]
+----
+HTTP/1.1 200 OK
+{
+  "items": [
+    {
+      "id": "509",
+      "name": "Meditation for Sleep",
+      "thumbnail": "http://embed.wistia.com/deliveries/d69c92e189e39e6db5373601d43a085bacbeb1d8.bin",
+      "duration": 410,
+      "customInfo": [],
+      "instructor": "Dale Rowley",
+      "instructorId": "450",
+      "instructors": [
+        {
+          "name": "Dale Rowley",
+          "id": "450"
+        }
+      ],
+      "level": "All Levels",
+      "category": 202,
+      "program": 202,
+      "programName": "Meditation & Mindfulness",
+      "releaseDate": 0,
+      "language": "English",
+      "attachments": [],
+      "workoutModality": "",
+      "hardwareManufacturer": "",
+      "location": "YMCA of the Rockies",
+      "moderation_state": "archived",
+      "premium": false
+    }
+  ],
+  "summary": {
+    "limit": 50,
+    "page": 0,
+    "total": 1,
+    "facets": {}
+  }
+}
+----
+
+[[archived-video-details]]
+=== Archived Video Details
+
+`GET /api/virtual-classes/v4.0/content-providers/{provider}/archived-videos/{videoId}`
+
+.Request Headers
+|===
+|Name |Required |Description
+
+|Accept
+|Yes
+|application/json
+
+|authorization
+|Yes
+|apiKey {key}
+
+|===
+
+.Path Parameters
+|===
+|Name |Type |Required |Description
+
+|provider
+|String
+|Yes
+|Association machine name
+
+|videoId
+|Integer
+|Yes
+|Video node ID
+
+|===
+
+.Response Fields
+
+Same as <<fetch-video>>. Additionally:
+
+|===
+|Name |Type |Description
+
+|videoBrief.moderation_state
+|String
+|Always `"archived"`
+
+|===
+
+.Example Request
+[source,sh]
+----
+$ curl 'http://localhost:8080/api/virtual-classes/v4.0/content-providers/lmod/archived-videos/100?exerciserUuid=8965a460-a79e-4bf7-b66c-7e34d8c34760' -i -X GET \
+    -H 'Accept: application/json' \
+    -H 'authorization: apiKey 0a47c3bf-4740-465d-a22e-0b25ef86ddd0'
+----
+
+.Example Response
+[source,json]
+----
+HTTP/1.1 200 OK
+{
+  "videoBrief": {
+    "id": "100",
+    "name": "Mindful Yoga",
+    "thumbnail": "http://embed.wistia.com/deliveries/05a232a527061b571c510ef14ec625475738fe6e.bin",
+    "duration": 1685,
+    "customInfo": [],
+    "instructor": "Tracie",
+    "instructorId": "212",
+    "instructors": [
+      {
+        "name": "Tracie",
+        "id": "212"
+      }
+    ],
+    "level": "Intermediate",
+    "category": 240,
+    "program": 240,
+    "programName": "Intermediate Yoga",
+    "description": "This practice allows yout the time and space to flow from one posture to the next mindfully.",
+    "equipment": "Block Optional, Mat",
+    "attachments": [],
+    "language": "English",
+    "releaseDate": 0,
+    "workoutModality": "",
+    "hardwareManufacturer": "",
+    "location": "YMCA of the East Bay",
+    "moderation_state": "archived",
+    "premium": false
+  },
+  "videoDetails": {
+    "descriptionHtml": "<p>This practice allows yout the time and space to flow from one posture to the next mindfully.</p>",
+    "description": "This practice allows yout the time and space to flow from one posture to the next mindfully.",
+    "equipment": "Block Optional, Mat",
+    "hashId": "wa052yyfp9",
+    "videoFiles": [
+      {
+        "mimeType": "video/mp4",
+        "format": "mp4",
+        "quality": "origin",
+        "sizeInBytes": 1159131617,
+        "sourceUrl": "http://embed.wistia.com/deliveries/f8fcef39ddde0cec73ec3da99daca877.bin"
+      },
+      {
+        "mimeType": "video/mp4",
+        "format": "mp4",
+        "quality": "360p",
+        "sizeInBytes": 70156718,
+        "sourceUrl": "http://embed.wistia.com/deliveries/0f5f748c6aca81d7deffbc5d9232b51f7df685a3.bin"
+      },
+      {
+        "mimeType": "video/mp4",
+        "format": "mp4",
+        "quality": "1080p",
+        "sizeInBytes": 388914090,
+        "sourceUrl": "http://embed.wistia.com/deliveries/7bc5f20382d137a5886e4e53a2884a7d3aefeb68.bin"
+      },
+      {
+        "mimeType": "application/x-mpegURL",
+        "format": "m3u8",
+        "sourceUrl": "http://fast.wistia.net/embed/medias/wa052yyfp9.m3u8",
+        "quality": "adaptive",
+        "method": "hls"
+      }
+    ],
+    "subtitles": []
+  }
+}
+----
+
 [[footer]]
 [[footer-text]]
